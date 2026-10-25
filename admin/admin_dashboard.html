@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Horizon Institute</title>
+  <meta name="description" content="Administrator dashboard for Horizon Institute Campus Assistance Portal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+      --primary-light: rgba(99, 102, 241, 0.1);
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.12);
+      --success: #22c55e;
+      --success-light: rgba(34, 197, 94, 0.1);
+      --warn: #f59e0b;
+      --warn-light: rgba(245, 158, 11, 0.1);
+      --info: #38bdf8;
+
+      --bg-body: #08101e;
+      --bg-sidebar: #0d1829;
+      --bg-surface: #111d30;
+      --bg-card: #162035;
+      --bg-input: rgba(255, 255, 255, 0.04);
+      --border: rgba(148, 163, 184, 0.12);
+      --border-focus: rgba(99, 102, 241, 0.6);
+
+      --text: #e2e8f0;
+      --text-muted: #64748b;
+      --text-soft: #94a3b8;
+      --sidebar-w: 240px;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-body);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-brand {
+      padding: 1.5rem 1.25rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 0.65rem;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .brand-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .nav-section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0.75rem 0.75rem 0.35rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.65rem 0.875rem;
+      border-radius: 10px;
+      color: var(--text-soft);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.18s, color 0.18s;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      background: rgba(99, 102, 241, 0.08);
+      color: var(--text);
+    }
+
+    .nav-link.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-link .nav-icon {
+      font-size: 1.05rem;
+      width: 22px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding: 1rem 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .admin-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+    }
+
+    .admin-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .admin-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .admin-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-role {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 9px;
+      color: #f87171;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.18s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* =========================================================
+       MAIN CONTENT
+    ========================================================= */
+    .main-content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Topbar */
+    .topbar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .topbar-breadcrumb {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      background: var(--success-light);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #4ade80;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    .page-body {
+      padding: 1.75rem;
+      flex: 1;
+    }
+
+    /* Flash messages */
+    .flash-zone {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .flash {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .flash-success {
+      background: var(--success-light);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #86efac;
+    }
+
+    .flash-error {
+      background: var(--danger-light);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    /* =========================================================
+       CARDS & METRICS
+    ========================================================= */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-color, var(--primary)) 0%, transparent 60%);
+      opacity: 0.06;
+      border-radius: inherit;
+    }
+
+    .metric-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       SECTION CARDS
+    ========================================================= */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 1.1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-body {
+      padding: 1.4rem;
+    }
+
+    /* =========================================================
+       TABLES
+    ========================================================= */
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+    }
+
+    td {
+      padding: 0.8rem 1rem;
+      color: var(--text-soft);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.07);
+      vertical-align: middle;
+    }
+
+    tbody tr:hover {
+      background: rgba(99, 102, 241, 0.04);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Category pill */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .pill-blue {
+      background: var(--primary-light);
+      color: #a5b4fc;
+    }
+
+    .pill-green {
+      background: var(--success-light);
+      color: #86efac;
+    }
+
+    .pill-yellow {
+      background: var(--warn-light);
+      color: #fde68a;
+    }
+
+    .pill-red {
+      background: var(--danger-light);
+      color: #fca5a5;
+    }
+
+    .pill-gray {
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: 9px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.18s, opacity 0.18s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 3px 12px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 6px 18px var(--primary-glow);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-soft);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      border-radius: 7px;
+    }
+
+    .btn-success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .btn-success:hover {
+      background: rgba(34, 197, 94, 0.25);
+    }
+
+    /* =========================================================
+       FORMS
+    ========================================================= */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .form-col-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+    }
+
+    .form-hint {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.65rem 0.875rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--border-focus);
+      background: rgba(99, 102, 241, 0.06);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #334155;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    select option {
+      background: #1e293b;
+    }
+
+    /* Search row */
+    .search-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .search-row input {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .search-row select {
+      flex: 0 0 160px;
+    }
+
+    /* =========================================================
+       CATEGORY BREAKDOWN
+    ========================================================= */
+    .cat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .cat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .cat-name {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      min-width: 100px;
+    }
+
+    .cat-bar-wrap {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .cat-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #8b5cf6);
+      border-radius: 999px;
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cat-count {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 24px;
+      text-align: right;
+    }
+
+    /* =========================================================
+       RECENT QUERIES TABLE
+    ========================================================= */
+    .source-pill {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .src-gemini {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+    }
+
+    .src-mysql {
+      background: rgba(56, 189, 248, 0.12);
+      color: #7dd3fc;
+    }
+
+    .src-fallback {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fde68a;
+    }
+
+    .src-greeting {
+      background: rgba(34, 197, 94, 0.1);
+      color: #86efac;
+    }
+
+    .src-other {
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       CHANGE PASSWORD FORM INLINE
+    ========================================================= */
+    .pw-form {
+      max-width: 420px;
+    }
+
+    /* =========================================================
+       FAQ ANSWER PREVIEW — truncate long text in table
+    ========================================================= */
+    .answer-preview {
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .empty-state p {
+      font-size: 0.875rem;
+    }
+
+    /* =========================================================
+       CONFIRM DELETE MODAL
+    ========================================================= */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-desc {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .topbar {
+        padding: 0.75rem 1rem;
+      }
+
+      .page-body {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">🎓</div>
+      <div class="brand-title">Horizon Admin</div>
+      <div class="brand-sub">Campus Assistance Portal</div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Admin navigation">
+      <span class="nav-section-label">Overview</span>
+      <a href="/admin/dashboard" class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}"
+        id="nav-dashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+
+      <span class="nav-section-label">Knowledge Base</span>
+      <a href="/admin/faqs" class="nav-link {% if active_tab in ['faqs','edit_faq'] %}active{% endif %}" id="nav-faqs">
+        <span class="nav-icon">📋</span> Manage FAQs
+      </a>
+
+      <span class="nav-section-label">Account</span>
+      <a href="#" onclick="showTab('change-pw')" class="nav-link {% if active_tab == 'change_pw' %}active{% endif %}"
+        id="nav-changepw">
+        <span class="nav-icon">🔑</span> Change Password
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-badge">
+        <div class="admin-avatar">{{ (admin_username or 'A')[0].upper() }}</div>
+        <div class="admin-info">
+          <div class="admin-name">{{ admin_username }}</div>
+          <div class="admin-role">Administrator</div>
+        </div>
+      </div>
+      <a href="/admin/logout" class="logout-btn" id="logoutLink">🚪 Sign Out</a>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div>
+        <div class="topbar-title" id="pageTitle">
+          {% if active_tab == 'dashboard' %}📊 Dashboard Overview
+          {% elif active_tab == 'faqs' %}📋 FAQ Management
+          {% elif active_tab == 'edit_faq' %}✏️ Edit FAQ
+          {% else %}⚙️ Admin Settings
+          {% endif %}
+        </div>
+        <div class="topbar-breadcrumb">Horizon Institute Admin Portal</div>
+      </div>
+      <div class="topbar-right">
+        <span class="live-badge"><span class="live-dot"></span>System Live</span>
+        <a href="/" class="btn btn-outline btn-sm" id="viewPortalBtn" target="_blank">🌐 Student Portal</a>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-zone" id="flashZone">
+        {% for cat, msg in messages %}
+        <div class="flash flash-{{ 'success' if cat == 'success' else 'error' }}" role="alert">
+          {{ msg }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
+
+      <!-- =====================================================
+           DASHBOARD TAB
+      ====================================================== -->
+      {% if active_tab == 'dashboard' %}
+      <div id="tab-dashboard">
+
+        <!-- Metric cards -->
+        {% set m = metrics %}
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon">📚</div>
+            <div class="metric-value">{{ m.total_faqs }}</div>
+            <div class="metric-label">Total Campus FAQs</div>
+          </div>
+          <div class="metric-card" style="--accent-color:#22c55e">
+            <div class="metric-icon">💬</div>
+            <div class="metric-value">{{ m.total_chats }}</div>
+            <div class="metric-label">Student Inquiries</div>
+          </div>
+          <div class="metric-card" style="--accent-color:#38bdf8">
+            <div class="metric-icon">✅</div>
+            <div class="metric-value">{{ m.answered_chats }}</div>
+            <div class="metric-label">Answered Queries</div>
+          </div>
+          <div class="metric-card" style="--accent-color:#f59e0b">
+            <div class="metric-icon">↩️</div>
+            <div class="metric-value">{{ m.fallback_chats }}</div>
+            <div class="metric-label">Fallback Responses</div>
+          </div>
+          <div class="metric-card" style="--accent-color:#a78bfa">
+            <div class="metric-icon">👍</div>
+            <div class="metric-value">{{ m.helpful_feedback }}</div>
+            <div class="metric-label">Helpful Ratings</div>
+          </div>
+          <div class="metric-card" style="--accent-color:#ef4444">
+            <div class="metric-icon">👎</div>
+            <div class="metric-value">{{ m.unhelpful_feedback }}</div>
+            <div class="metric-label">Unhelpful Ratings</div>
+          </div>
+        </div>
+
+        <!-- Category breakdown + Recent queries -->
+        <div style="display:grid; grid-template-columns:1fr 1.8fr; gap:1.25rem;">
+
+          <!-- Category breakdown -->
+          <div class="section-card">
+            <div class="section-header">
+              <span class="section-title">🗂 FAQ Categories</span>
+            </div>
+            <div class="section-body">
+              {% if m.categories_breakdown %}
+              {% set max_cat = m.categories_breakdown[0].count %}
+              <div class="cat-list">
+                {% for cat in m.categories_breakdown %}
+                <div class="cat-row">
+                  <span class="cat-name">{{ cat.category }}</span>
+                  <div class="cat-bar-wrap">
+                    <div class="cat-bar" data-count="{{ cat.count }}"></div>
+                  </div>
+                  <span class="cat-count">{{ cat.count }}</span>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <div class="empty-state">
+                <p>No FAQs in the database yet.</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Recent chat queries -->
+          <div class="section-card">
+            <div class="section-header">
+              <span class="section-title">🕐 Recent Student Queries</span>
+            </div>
+            {% if m.recent_queries %}
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Query</th>
+                    <th>Category</th>
+                    <th>Source</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for q in m.recent_queries %}
+                  <tr>
+                    <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                      title="{{ q.user_query }}">
+                      {{ q.user_query }}
+                    </td>
+                    <td><span class="pill pill-blue">{{ q.matched_category or '—' }}</span></td>
+                    <td>
+                      {% set src = q.response_source or '' %}
+                      {% if 'gemini' in src %}
+                      <span class="source-pill src-gemini">✨ Gemini AI</span>
+                      {% elif 'mysql_grounded' in src %}
+                      <span class="source-pill src-mysql">🗄 MySQL</span>
+                      {% elif 'fallback' in src %}
+                      <span class="source-pill src-fallback">↩ Fallback</span>
+                      {% elif 'greeting' in src %}
+                      <span class="source-pill src-greeting">👋 Greeting</span>
+                      {% else %}
+                      <span class="source-pill src-other">{{ src }}</span>
+                      {% endif %}
+                    </td>
+                    <td style="font-size:0.75rem;color:var(--text-muted);">
+                      {{ q.created_at.strftime('%b %d %H:%M') if q.created_at else '—' }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+              <div class="empty-icon">💬</div>
+              <p>No student queries logged yet. They will appear here once students start using the chatbot.</p>
+            </div>
+            {% endif %}
+          </div>
+
+        </div><!-- /grid -->
+
+        <!-- Change Password Panel (shown inline on dashboard) -->
+        <div class="section-card" id="changePwSection" style="display:none;">
+          <div class="section-header">
+            <span class="section-title">🔑 Change Password</span>
+          </div>
+          <div class="section-body">
+            <form method="POST" action="/admin/change-password" class="pw-form" id="changePwForm">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+              <div class="form-group" style="margin-bottom:1rem;">
+                <label class="form-label" for="current_password">Current Password</label>
+                <input type="password" id="current_password" name="current_password"
+                  placeholder="Enter current password" required autocomplete="current-password" />
+              </div>
+              <div class="form-group" style="margin-bottom:1rem;">
+                <label class="form-label" for="new_password">New Password</label>
+                <input type="password" id="new_password" name="new_password" placeholder="At least 8 characters"
+                  required autocomplete="new-password" />
+              </div>
+              <div class="form-group" style="margin-bottom:1.25rem;">
+                <label class="form-label" for="confirm_password">Confirm New Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter new password"
+                  required autocomplete="new-password" />
+              </div>
+              <div style="display:flex;gap:0.75rem;">
+                <button type="submit" class="btn btn-primary" id="savePwBtn">💾 Update Password</button>
+                <button type="button" class="btn btn-outline" onclick="showTab(null)">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div><!-- /tab-dashboard -->
+      {% endif %}
+
+
+      <!-- =====================================================
+           FAQ MANAGEMENT TAB
+      ====================================================== -->
+      {% if active_tab == 'faqs' %}
+      <div id="tab-faqs">
+
+        <!-- Search & Filter -->
+        <form method="GET" action="/admin/faqs" id="searchForm">
+          <div class="search-row">
+            <input type="text" name="search" id="searchInput"
+              placeholder="🔍 Search FAQs by keyword, question, or answer…" value="{{ search or '' }}" />
+            <select name="category" id="categoryFilter">
+              <option value="">All Categories</option>
+              {% for cat in categories %}
+              <option value="{{ cat }}" {% if cat==selected_category %}selected{% endif %}>{{ cat }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+            {% if search or selected_category %}
+            <a href="/admin/faqs" class="btn btn-outline">Clear</a>
+            {% endif %}
+          </div>
+        </form>
+
+        <!-- Add FAQ Form -->
+        <div class="section-card" id="addFaqCard">
+          <div class="section-header" style="cursor:pointer;" onclick="toggleAddForm()">
+            <span class="section-title">➕ Add New FAQ</span>
+            <button type="button" class="btn btn-primary btn-sm" id="addToggleBtn">▼ Expand</button>
+          </div>
+          <div id="addFaqBody" style="display:none;">
+            <div class="section-body">
+              <form method="POST" action="/admin/faqs/add" id="addFaqForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="cat-select">Category *</label>
+                    <select id="cat-select" name="category" onchange="handleCatChange(this)">
+                      <option value="">— Select existing —</option>
+                      {% for cat in categories %}
+                      <option value="{{ cat }}">{{ cat }}</option>
+                      {% endfor %}
+                      <option value="__new__">+ Add new category…</option>
+                    </select>
+                  </div>
+                  <div class="form-group" id="customCatGroup" style="display:none;">
+                    <label class="form-label" for="custom_category">New Category Name *</label>
+                    <input type="text" id="custom_category" name="custom_category" placeholder="e.g. Transportation"
+                      maxlength="80" />
+                  </div>
+                  <div class="form-group form-col-full">
+                    <label class="form-label" for="new-question">Question *</label>
+                    <input type="text" id="new-question" name="question" placeholder="Enter the campus FAQ question…"
+                      maxlength="255" required />
+                  </div>
+                  <div class="form-group form-col-full">
+                    <label class="form-label" for="new-answer">Answer *</label>
+                    <textarea id="new-answer" name="answer" rows="5"
+                      placeholder="Provide the complete, accurate answer…" required></textarea>
+                  </div>
+                  <div class="form-group form-col-full">
+                    <label class="form-label" for="new-keywords">Keywords</label>
+                    <input type="text" id="new-keywords" name="keywords"
+                      placeholder="Comma-separated keywords for chatbot matching (e.g. admission, apply, register)" />
+                    <span class="form-hint">These keywords help the chatbot match this FAQ to student questions.</span>
+                  </div>
+                </div>
+                <div style="margin-top:1rem;display:flex;gap:0.75rem;">
+                  <button type="submit" class="btn btn-primary" id="addFaqBtn">💾 Add FAQ</button>
+                  <button type="button" class="btn btn-outline" onclick="toggleAddForm()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Table -->
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">📋 Campus FAQs
+              <span class="pill pill-blue" style="margin-left:0.4rem;">
+                {% if faqs is defined %}{{ faqs|length }}{% else %}0{% endif %}
+              </span>
+            </span>
+          </div>
+          <div class="table-wrap">
+            {% if faqs %}
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Category</th>
+                  <th>Question</th>
+                  <th>Answer Preview</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for faq in faqs %}
+                <tr>
+                  <td style="color:var(--text-muted);font-size:0.78rem;">{{ faq.id }}</td>
+                  <td><span class="pill pill-blue">{{ faq.category }}</span></td>
+                  <td style="max-width:200px;font-weight:500;color:var(--text);">{{ faq.question }}</td>
+                  <td>
+                    <div class="answer-preview">{{ faq.answer }}</div>
+                  </td>
+                  <td>
+                    <div style="display:flex;gap:0.4rem;align-items:center;">
+                      <a href="/admin/faqs/{{ faq.id }}/edit" class="btn btn-outline btn-sm" title="Edit FAQ">✏️
+                        Edit</a>
+                      <button type="button" class="btn btn-danger btn-sm delete-faq-btn" data-faq-id="{{ faq.id }}"
+                        data-faq-question="{{ faq.question|e }}" title="Delete FAQ">
+                        🗑 Del
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+              <div class="empty-icon">📭</div>
+              <p>No FAQs found{% if search %} matching "<strong>{{ search }}</strong>"{% endif %}.</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div><!-- /tab-faqs -->
+      {% endif %}
+
+
+      <!-- =====================================================
+           EDIT FAQ TAB
+      ====================================================== -->
+      {% if active_tab == 'edit_faq' and faq is defined %}
+      <div id="tab-edit-faq">
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">✏️ Edit FAQ #{{ faq.id }}</span>
+            <a href="/admin/faqs" class="btn btn-outline btn-sm">← Back to FAQ List</a>
+          </div>
+          <div class="section-body">
+            <form method="POST" action="/admin/faqs/{{ faq.id }}/edit" id="editFaqForm">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="edit-cat-select">Category *</label>
+                  <select id="edit-cat-select" name="category" onchange="handleEditCatChange(this)">
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {% if cat==faq.category %}selected{% endif %}>
+                      {{ cat }}
+                    </option>
+                    {% endfor %}
+                    <option value="__new__">+ Add new category…</option>
+                  </select>
+                </div>
+                <div class="form-group" id="editCustomCatGroup" style="display:none;">
+                  <label class="form-label" for="edit_custom_category">New Category Name</label>
+                  <input type="text" id="edit_custom_category" name="custom_category" placeholder="e.g. Transportation"
+                    maxlength="80" />
+                </div>
+                <div class="form-group form-col-full">
+                  <label class="form-label" for="edit-question">Question *</label>
+                  <input type="text" id="edit-question" name="question" value="{{ faq.question }}" maxlength="255"
+                    required />
+                </div>
+                <div class="form-group form-col-full">
+                  <label class="form-label" for="edit-answer">Answer *</label>
+                  <textarea id="edit-answer" name="answer" rows="7" required>{{ faq.answer }}</textarea>
+                </div>
+                <div class="form-group form-col-full">
+                  <label class="form-label" for="edit-keywords">Keywords</label>
+                  <input type="text" id="edit-keywords" name="keywords" value="{{ faq.keywords }}" />
+                  <span class="form-hint">Comma-separated keywords help the chatbot match this FAQ.</span>
+                </div>
+              </div>
+              <div style="margin-top:1.25rem;display:flex;gap:0.75rem;">
+                <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                <a href="/admin/faqs" class="btn btn-outline">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div><!-- /page-body -->
+  </div><!-- /main-content -->
+
+
+  <!-- ======================================================
+       DELETE CONFIRM MODAL
+  ======================================================= -->
+  <div class="modal-backdrop" id="deleteModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-title">🗑 Delete FAQ</div>
+      <div class="modal-desc" id="deleteModalDesc">Are you sure you want to delete this FAQ? This action cannot be
+        undone.</div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancel</button>
+        <form id="deleteForm" method="POST" style="display:inline;">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <button type="submit" class="btn btn-danger">🗑 Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // -------------------------------------------------------
+    // Flash auto-dismiss after 5 seconds
+    // -------------------------------------------------------
+    setTimeout(() => {
+      const zone = document.getElementById('flashZone');
+      if (zone) zone.style.opacity = '0';
+      setTimeout(() => { if (zone) zone.remove(); }, 400);
+    }, 5000);
+
+    // -------------------------------------------------------
+    // Change-password tab toggle & cross-tab redirection
+    // -------------------------------------------------------
+    function showTab(tab) {
+      const pwSection = document.getElementById('changePwSection');
+      if (tab === 'change-pw') {
+        if (!pwSection) {
+          window.location.href = '/admin/dashboard#change-pw';
+          return;
+        }
+        pwSection.style.display = 'block';
+        pwSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        if (pwSection) pwSection.style.display = 'none';
+      }
+    }
+
+    // Auto-open change password if URL hash is #change-pw
+    if (window.location.hash === '#change-pw') {
+      showTab('change-pw');
+    }
+
+    // Password match validation
+    const changePwForm = document.getElementById('changePwForm');
+    if (changePwForm) {
+      changePwForm.addEventListener('submit', function (e) {
+        const newPw = document.getElementById('new_password').value;
+        const confirmPw = document.getElementById('confirm_password').value;
+        if (newPw.length < 8) {
+          e.preventDefault();
+          alert('New password must be at least 8 characters long.');
+          return;
+        }
+        if (newPw !== confirmPw) {
+          e.preventDefault();
+          alert('New passwords do not match. Please re-enter.');
+          return;
+        }
+      });
+    }
+
+    // -------------------------------------------------------
+    // Add FAQ form expand/collapse
+    // -------------------------------------------------------
+    function toggleAddForm(forceOpen = null) {
+      const body = document.getElementById('addFaqBody');
+      const btn = document.getElementById('addToggleBtn');
+      if (!body || !btn) return;
+      const shouldOpen = forceOpen !== null ? forceOpen : (body.style.display === 'none' || body.style.display === '');
+      body.style.display = shouldOpen ? 'block' : 'none';
+      btn.textContent = shouldOpen ? '▲ Collapse' : '▼ Expand';
+    }
+
+    // -------------------------------------------------------
+    // Add FAQ: custom category input
+    // -------------------------------------------------------
+    function handleCatChange(sel) {
+      const grp = document.getElementById('customCatGroup');
+      const inp = document.getElementById('custom_category');
+      if (sel.value === '__new__') {
+        grp.style.display = 'block';
+        inp.required = true;
+        inp.focus();
+      } else {
+        grp.style.display = 'none';
+        inp.required = false;
+        inp.value = '';
+      }
+    }
+
+    function handleEditCatChange(sel) {
+      const grp = document.getElementById('editCustomCatGroup');
+      const inp = document.getElementById('edit_custom_category');
+      if (sel.value === '__new__') {
+        grp.style.display = 'block';
+        inp.required = true;
+        inp.focus();
+      } else {
+        grp.style.display = 'none';
+        inp.required = false;
+        inp.value = '';
+      }
+    }
+
+    // -------------------------------------------------------
+    // Delete modal
+    // -------------------------------------------------------
+    function confirmDelete(faqId, question) {
+      const modal = document.getElementById('deleteModal');
+      const desc = document.getElementById('deleteModalDesc');
+      const form = document.getElementById('deleteForm');
+      desc.textContent = `Delete FAQ: "${question}"? This action cannot be undone.`;
+      form.action = `/admin/faqs/${faqId}/delete`;
+      modal.classList.add('active');
+    }
+
+    document.querySelectorAll('.delete-faq-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const faqId = button.dataset.faqId;
+        const question = button.dataset.faqQuestion || 'this FAQ';
+        confirmDelete(faqId, question);
+      });
+    });
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+    }
+
+    // Close modal on backdrop click
+    const deleteModalEl = document.getElementById('deleteModal');
+    if (deleteModalEl) {
+      deleteModalEl.addEventListener('click', function (e) {
+        if (e.target === this) closeDeleteModal();
+      });
+    }
+
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDeleteModal();
+    });
+
+    // -------------------------------------------------------
+    // Animate category bars on load
+    // -------------------------------------------------------
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.cat-bar').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => { bar.style.width = w; }, 100);
+      });
+    });
+
+    // -------------------------------------------------------
+    // Auto-open add form if a flash message indicates an error
+    // -------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      const flashZone = document.getElementById('flashZone');
+      const addFaqBody = document.getElementById('addFaqBody');
+
+      if (
+        flashZone &&
+        addFaqBody &&
+        flashZone.querySelector('.flash-error') &&
+        document.getElementById('tab-faqs')
+      ) {
+        toggleAddForm(true);
+      }
+    });
+  </script>
+</body>
+
+</html>

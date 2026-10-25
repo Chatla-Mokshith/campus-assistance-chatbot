@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horizon Institute of Technology | Campus Portal & Assistant</title>
+  <meta name="description" content="Official demo portal for Horizon Institute of Technology featuring an AI-ready campus assistance chatbot.">
+  
+  <!-- Google Fonts for modern, premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================================================================= -->
+  <!-- 1. NAVIGATION BAR                                                 -->
+  <!-- ================================================================= -->
+  <header class="site-header" id="top">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo" aria-label="Campus Portal Home">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Horizon Institute</span>
+          <span class="brand-badge">Demo Campus</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links" id="nav-links">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#admissions" class="nav-link">Admissions</a>
+        <a href="#academics" class="nav-link">Academics</a>
+        <a href="#placements" class="nav-link">Placements</a>
+        <a href="#events" class="nav-link">Events</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Quick Action: Chat Launcher in Header -->
+      <div class="nav-actions">
+        <button id="header-chat-btn" class="btn btn-outline" aria-label="Open Chatbot">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Ask CampusBot</span>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-toggle" class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================================================================= -->
+    <!-- 2. HERO / WELCOME SECTION                                         -->
+    <!-- ================================================================= -->
+    <section class="hero-section" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="pill-tag">
+            <span class="pulse-dot"></span>
+            Campus Virtual Helpdesk 24/7
+          </div>
+          <h1 class="hero-title">
+            Empowering Your <span class="gradient-text">Academic Journey</span> at Horizon
+          </h1>
+          <p class="hero-description">
+            Explore world-class academic programs, transparent admissions, vibrant campus life, and top-tier career placements. Have questions? Our AI-ready Campus Assistant is here to guide you instantly.
+          </p>
+
+          <div class="hero-buttons">
+            <button id="hero-chat-trigger" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span>Launch CampusBot</span>
+            </button>
+            <a href="#admissions" class="btn btn-secondary">Explore Admissions</a>
+          </div>
+
+          <!-- Quick Stats Banner -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number">45+</span>
+              <span class="stat-label">Degree Programs</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">92%</span>
+              <span class="stat-label">Placement Record</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-number">12k+</span>
+              <span class="stat-label">Enrolled Students</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assistant Feature Preview Card -->
+        <div class="hero-preview">
+          <div class="preview-card">
+            <div class="preview-header">
+              <div class="bot-avatar-sm">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 8V4H8"/>
+                  <rect x="4" y="8" width="16" height="12" rx="2"/>
+                  <path d="M9 13h6"/>
+                  <path d="M9 17h6"/>
+                </svg>
+              </div>
+              <div>
+                <p class="preview-title">CampusBot Assistant</p>
+                <p class="preview-subtitle">Ready to answer your campus questions</p>
+              </div>
+            </div>
+
+            <div class="preview-sample-messages">
+              <div class="sample-msg user">
+                <span>Where can I find placement information?</span>
+              </div>
+              <div class="sample-msg bot">
+                <span>Our 2025-26 placement season recorded a 92% rate with 180+ recruiters! You can view department reports or contact placement@horizon.edu.</span>
+              </div>
+            </div>
+
+            <div class="preview-prompt-bar">
+              <input type="text" placeholder="Try asking: 'How do I apply for admission?'" readonly>
+              <button class="preview-send-btn" id="preview-open-chat" title="Click to open chatbot">
+                Try Now &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 3. ADMISSIONS SECTION                                             -->
+    <!-- ================================================================= -->
+    <section class="section" id="admissions">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Admissions 2026-27</span>
+          <h2 class="section-title">Begin Your Future with Us</h2>
+          <p class="section-subtitle">Simplified online application process, merit scholarships, and dedicated counseling support.</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="info-card">
+            <div class="card-icon blue">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <h3>Online Application</h3>
+            <p>Applications for undergraduate and postgraduate programs are open. Submit your transcripts and entrance scores online.</p>
+            <button class="card-link" onclick="handleQuickQuestion('How can I apply for admission?')">Ask Chatbot about Application &rarr;</button>
+          </div>
+
+          <div class="info-card">
+            <div class="card-icon amber">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"/>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+              </svg>
+            </div>
+            <h3>Merit Scholarships</h3>
+            <p>Up to 50% tuition waivers for top 5% rank holders, state sports medalists, and distinguished STEM candidates.</p>
+            <button class="card-link" onclick="handleQuickQuestion('What scholarships are available?')">Ask Chatbot about Scholarships &rarr;</button>
+          </div>
+
+          <div class="info-card">
+            <div class="card-icon emerald">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <h3>Important Deadlines</h3>
+            <p>Early Decision: June 15, 2026. Regular Applications: July 30, 2026. Orientation week begins late August.</p>
+            <button class="card-link" onclick="handleQuickQuestion('What are the admission deadlines?')">Ask Chatbot about Deadlines &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 4. ACADEMICS SECTION                                              -->
+    <!-- ================================================================= -->
+    <section class="section section-alt" id="academics">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Academics</span>
+          <h2 class="section-title">Diverse Disciplines & Research</h2>
+          <p class="section-subtitle">Industry-aligned curriculum tailored to modern technology, science, and leadership.</p>
+        </div>
+
+        <div class="programs-grid">
+          <div class="program-badge-card">
+            <h4>Computer Science & AI</h4>
+            <p>Machine learning, cyber security, full-stack systems, and distributed cloud computing.</p>
+          </div>
+          <div class="program-badge-card">
+            <h4>Electronics & IoT</h4>
+            <p>VLSI design, embedded systems, robotics, and smart telecommunications.</p>
+          </div>
+          <div class="program-badge-card">
+            <h4>Data Science & Analytics</h4>
+            <p>Big data architecture, predictive modeling, business intelligence, and statistics.</p>
+          </div>
+          <div class="program-badge-card">
+            <h4>Mechanical & Mechatronics</h4>
+            <p>Advanced automation, EV engineering, renewable energy, and computational mechanics.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 5. PLACEMENTS SECTION                                             -->
+    <!-- ================================================================= -->
+    <section class="section" id="placements">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Career Center</span>
+          <h2 class="section-title">Top Placements & Corporate Partners</h2>
+          <p class="section-subtitle">Bridging classroom excellence with career opportunities across leading global employers.</p>
+        </div>
+
+        <div class="placement-banner">
+          <div class="placement-stat">
+            <h3>92%</h3>
+            <p>Overall Placement Rate</p>
+          </div>
+          <div class="placement-stat">
+            <h3>180+</h3>
+            <p>Partner Organizations</p>
+          </div>
+          <div class="placement-stat">
+            <h3>$14.5k</h3>
+            <p>Average Package (Demo)</p>
+          </div>
+          <div class="placement-stat">
+            <h3>$38k</h3>
+            <p>Highest Package (Demo)</p>
+          </div>
+        </div>
+
+        <div class="recruiters-wrapper">
+          <p class="recruiters-label">Featured Demo Recruiters</p>
+          <div class="recruiters-list">
+            <span class="recruiter-tag">TechNova Labs</span>
+            <span class="recruiter-tag">Apex Cloud Systems</span>
+            <span class="recruiter-tag">CyberCore Global</span>
+            <span class="recruiter-tag">DataPulse Analytics</span>
+            <span class="recruiter-tag">GreenTech Dynamics</span>
+            <span class="recruiter-tag">Nexus Robotics</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 6. EVENTS & CAMPUS LIFE SECTION                                   -->
+    <!-- ================================================================= -->
+    <section class="section section-alt" id="events">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Campus Life</span>
+          <h2 class="section-title">Upcoming Campus Events</h2>
+          <p class="section-subtitle">Stay engaged with academic conferences, cultural celebrations, and hackathons.</p>
+        </div>
+
+        <div class="events-grid">
+          <article class="event-card">
+            <div class="event-date">
+              <span class="event-day">18</span>
+              <span class="event-month">NOV</span>
+            </div>
+            <div class="event-details">
+              <span class="event-type">Hackathon</span>
+              <h3>Annual 36-Hour Hackathon 2026</h3>
+              <p>Build AI solutions for community challenges. Open to all undergraduates.</p>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date">
+              <span class="event-day">05</span>
+              <span class="event-month">DEC</span>
+            </div>
+            <div class="event-details">
+              <span class="event-type">Tech Symposium</span>
+              <h3>Future of Artificial Intelligence Forum</h3>
+              <p>Keynotes from industry leaders on ethics, generative AI, and future careers.</p>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date">
+              <span class="event-day">14</span>
+              <span class="event-month">JAN</span>
+            </div>
+            <div class="event-details">
+              <span class="event-type">Career Fair</span>
+              <h3>Spring Campus Recruitment Drive</h3>
+              <p>Over 80 companies interviewing seniors for summer internships and full-time roles.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 7. CONTACT SECTION                                                -->
+    <!-- ================================================================= -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Get In Touch</span>
+          <h2 class="section-title">Contact Campus Helpdesk</h2>
+          <p class="section-subtitle">Have specific inquiries? Reach our administration or use the chatbot for 24/7 instant answers.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-icon">📍</div>
+            <h4>Campus Address</h4>
+            <p>100 Knowledge Boulevard, Innovation District, Tech City 560001</p>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">✉️</div>
+            <h4>Email Support</h4>
+            <p>admissions@horizon.edu<br>campusbot-support@horizon.edu</p>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">📞</div>
+            <h4>Helpline</h4>
+            <p>+1 (800) 555-0199<br>Mon - Fri: 9:00 AM - 5:00 PM</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================= -->
+  <!-- 8. FOOTER                                                         -->
+  <!-- ================================================================= -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 Horizon Institute of Technology. Designed for Demonstration & Learning.</p>
+      <p class="footer-subtext">Frontend ready for Python Flask & AI/NLP API integration.</p>
+    </div>
+  </footer>
+
+  <!-- ================================================================= -->
+  <!-- 9. CAMPUS ASSISTANCE CHATBOT WIDGET                               -->
+  <!-- ================================================================= -->
+  
+  <!-- Floating Launcher Button (Bottom Right) -->
+  <button id="chatbot-launcher-btn" class="chatbot-launcher" aria-label="Open Campus Assistance Chatbot" title="Chat with CampusBot">
+    <div class="launcher-icon open-icon">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </div>
+    <div class="launcher-icon close-icon">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <span class="notification-badge" id="bot-notification-badge">1</span>
+  </button>
+
+  <!-- Chatbot Window Modal/Drawer -->
+  <aside id="chatbot-window" class="chatbot-window" aria-hidden="true" role="dialog" aria-label="Campus Assistance Chatbot">
+    
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8V4H8"/>
+            <rect x="4" y="8" width="16" height="12" rx="2"/>
+            <path d="M9 13h6"/>
+            <path d="M9 17h6"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="chat-header-title">CampusBot</h3>
+          <p class="chat-header-status">
+            <span class="status-indicator online"></span>
+            Online • Ready to assist
+          </p>
+        </div>
+      </div>
+
+      <div class="chat-header-actions">
+        <!-- Clear Chat History Button -->
+        <button id="chat-clear-btn" class="header-action-btn" title="Clear conversation" aria-label="Clear chat history">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+        </button>
+        <!-- Close Window Button -->
+        <button id="chat-close-btn" class="header-action-btn" title="Close chat" aria-label="Close chat window">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Suggested Quick Questions Bar -->
+    <div class="chat-suggestions-wrapper">
+      <p class="suggestions-label">Suggested Questions:</p>
+      <div class="chat-suggestions" id="chat-suggestions">
+        <button class="chip-btn" data-question="How can I apply for admission?">
+          🎓 How can I apply for admission?
+        </button>
+        <button class="chip-btn" data-question="Where can I find placement information?">
+          💼 Placement information?
+        </button>
+        <button class="chip-btn" data-question="What academic programs are offered?">
+          📚 Academic programs?
+        </button>
+        <button class="chip-btn" data-question="What are the upcoming events?">
+          📅 Upcoming events?
+        </button>
+        <button class="chip-btn" data-question="What are the hostel and library facilities?">
+          🏫 Campus facilities?
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable Messages Container -->
+    <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
+      <!-- Welcome message populated via script.js -->
+    </div>
+
+    <!-- Bot Typing Animation Container (hidden by default) -->
+    <div class="typing-indicator-container hidden" id="typing-indicator" aria-label="CampusBot is typing">
+      <div class="typing-bubble">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <span class="typing-text">CampusBot is typing...</span>
+    </div>
+
+    <!-- Input Form -->
+    <form class="chat-input-form" id="chat-form">
+      <input 
+        type="text" 
+        id="chat-input" 
+        class="chat-input" 
+        placeholder="Ask about admissions, courses, fees, placements..." 
+        autocomplete="off" 
+        required 
+        aria-label="Your campus question"
+      >
+      <button type="submit" id="chat-send-btn" class="chat-send-btn" aria-label="Send message">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </form>
+
+    <!-- Footer Note for Backend Status -->
+    <div class="chat-footer-note">
+      <span class="backend-status-pill" id="backend-status-pill">Flask + MySQL (Connected)</span>
+      <span>• Database: campus_assistance</span>
+    </div>
+  </aside>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
