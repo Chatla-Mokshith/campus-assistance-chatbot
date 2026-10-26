@@ -237,12 +237,14 @@ def admin_login_submit():
         session["admin_username"] = user["username"]
         session["admin_id"] = user["id"]
         session.permanent = False
+        if user.get("db_offline"):
+            flash("⚠️ Notice: MySQL database is currently unreachable on Render. You are logged in with emergency admin credentials. Configure your DB_HOST environment variables in Render to enable live persistence.", "error")
         return redirect(url_for("admin_dashboard"))
 
     csrf_token = generate_csrf()
     return render_template('admin_login.html',
         csrf_token=csrf_token,
-        error="Invalid username or password. Please try again."
+        error="Invalid username or password. (Check your credentials or verify Cloud MySQL is connected)."
     ), 401
 
 

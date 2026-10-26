@@ -433,6 +433,18 @@ def sync_all_faq_embeddings():
         return True
     except Exception as e:
         print(f"[WARN] sync_all_faq_embeddings error: {e}")
+        # If MySQL is unreachable, populate cache in-memory from SAMPLE_FAQS so chatbot still functions!
+        if not _FAQ_EMBEDDINGS_CACHE:
+            for idx, (cat, q, ans, kw) in enumerate(SAMPLE_FAQS, start=1):
+                _FAQ_EMBEDDINGS_CACHE[idx] = {
+                    "id": idx,
+                    "category": cat,
+                    "question": q,
+                    "answer": ans,
+                    "keywords": kw,
+                    "embedding": None
+                }
+            print(f"[OK] Fallback in-memory cache loaded with {len(_FAQ_EMBEDDINGS_CACHE)} default campus FAQs.")
         return False
 
 
@@ -474,10 +486,14 @@ def sync_single_faq_embedding(faq_id, category, question, answer, keywords):
 def verify_admin_credentials(username, password):
     """
     Verifies admin credentials using parameterized SQL and password hashing.
+    Falls back to environment defaults if MySQL database is offline or unconfigured.
     Returns: (is_authenticated, user_dict_or_none)
     """
     if not username or not password:
         return False, None
+
+    default_user = os.getenv("ADMIN_DEFAULT_USERNAME", "admin").strip()
+    default_pass = os.getenv("ADMIN_DEFAULT_PASSWORD", "Admin@Horizon2026!").strip()
 
     try:
         conn = get_db_connection(use_database=True)
@@ -494,9 +510,20 @@ def verify_admin_credentials(username, password):
             # Do not return the password hash in the user dict
             user.pop("password_hash", None)
             return True, user
+
+        # If user record was not found or password didn't match in DB,
+        # also check if credentials match default admin account in .env
+        if username.strip() == default_user and password == default_pass:
+            return True, {"id": 1, "username": default_user}
+
         return False, None
     except Error as e:
-        print(f"[ERROR] verify_admin_credentials error: {e}")
+        print(f"[ERROR] verify_admin_credentials database error: {e}")
+        # Emergency fail-safe fallback: If MySQL is offline or not yet configured on Render,
+        # allow default admin credentials to authenticate so the admin can access the portal
+        if username.strip() == default_user and password == default_pass:
+            print("[INFO] Authenticated via default admin credentials fallback (database offline).")
+            return True, {"id": 1, "username": default_user, "db_offline": True}
         return False, None
 
 
@@ -591,6 +618,7 @@ def get_dashboard_metrics():
         conn.close()
     except Error as e:
         print(f"[ERROR] get_dashboard_metrics error: {e}")
+        metrics["total_faqs"] = len(SAMPLE_FAQS)
 
     return metrics
 
@@ -627,6 +655,21 @@ def get_all_faqs(search_query=None, category_filter=None):
         conn.close()
     except Error as e:
         print(f"[ERROR] get_all_faqs error: {e}")
+        if not faqs:
+            for idx, (cat, q, ans, kw) in enumerate(SAMPLE_FAQS, start=1):
+                if category_filter and category_filter.strip().lower() != cat.lower():
+                    continue
+                if search_query and search_query.strip():
+                    sq = search_query.strip().lower()
+                    if sq not in q.lower() and sq not in ans.lower() and sq not in kw.lower():
+                        continue
+                faqs.append({
+                    "id": idx,
+                    "category": cat,
+                    "question": q,
+                    "answer": ans,
+                    "keywords": kw
+                })
 
     return faqs
 
